@@ -9,22 +9,24 @@ import SwiftUI
 
 struct BackgroundSymbol: View {
     // MARK: - PROPERTIES
+    var image: Image
     var offset: CGSize
     var rotationDegree: Angle
     
     // MARK: - BODY
     var body: some View {
-        Image("bg1")
+        image
             .resizable()
             .scaledToFit()
             .offset(offset)
             .rotationEffect(rotationDegree)
-            .shadow(color: .black.opacity(0.3), radius: 10, x: 2, y: 2)
+            .modifier(AppShadow())
     }
 }
 
 // MARK: - PREVIEW
 #Preview {
-    BackgroundSymbol(offset: .zero, 
+    BackgroundSymbol(image: Image("bg1"),
+                     offset: .zero,
                      rotationDegree: .zero)
 }

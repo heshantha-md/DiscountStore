@@ -12,14 +12,15 @@ struct HomeView: View {
     @EnvironmentObject var productsService: MocProductsService
     @State private var gridLayout = Array(repeating: GridItem(.flexible(minimum: 100, maximum: .infinity), spacing: 0), count: 2)
     @State var isDataFetched: Bool = false
-    @State var isCartPresented: Bool = false
+    @State var isCartPresented: Bool = true
     
     // MARK: - BODY
     var body: some View {
         GeometryReader { geo in
             ZStack(alignment: .topLeading) {
                 // MARK: - BACKGROUND SYMBOLS
-                BackgroundSymbolsView(geometry: geo)
+                BackgroundSymbolsView(image: Image("bg1"),
+                                      geometry: geo)
                 
                 // MARK: - LIST OF ITEMS
                 VStack {
@@ -50,6 +51,7 @@ struct HomeView: View {
                 .sheet(isPresented: $isCartPresented) {
                     // MARK: - CART VIEW
                     CartView(isPresented: $isCartPresented)
+                        .presentationBackground(.ultraThinMaterial)
                 }
 //                .toolbar {
 //                    ToolbarItem(placement: .topBarTrailing) {
@@ -84,4 +86,5 @@ struct HomeView: View {
         HomeView()
     }
     .environmentObject(MocProductsService())
+    .environmentObject(MocCheckoutService(rules: MOC.CHECKOUT_RULES_SAMPLE_1) as! CheckoutService)
 }

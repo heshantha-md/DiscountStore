@@ -18,7 +18,9 @@ struct ProductDetailsView: View {
         GeometryReader { geo in
             ZStack {
                 // MARK: - BACKGROUND SYMBOLS
-                BackgroundSymbolsView(geometry: geo)
+                BackgroundSymbolsView(image: Image("bg1"),
+                                      geometry: geo)
+                                     .blur(radius: 0.8)
                 
                 let rect = RoundedRectangle(cornerRadius: 10)
                 
@@ -47,32 +49,35 @@ struct ProductDetailsView: View {
                     .frame(minWidth: (geo.size.width - 35), minHeight: 250, maxHeight: 300)
                     .clipShape(rect)
                     .modifier(DiscountLabel(product: product)) // MARK: - DISCOUNT LABELS
-                    .shadow(color: .black.opacity(0.3), radius: 10, x: 2, y: 2)
+                    .modifier(AppShadow())
                     
                     // MARK: - NAME & PRICE
                     HStack {
                         Text(product.name)
                         Spacer()
                         Text(product.grossPrice.asPrice)
+                            .fontDesign(.rounded)
+                            .fontWeight(.semibold)
                     }
-                    .font(.system(.title, weight: .heavy))
-                    .foregroundStyle(Colors.FONT_COLOR_3)
+                    .font(.system(.title, weight: .light))
+                    .foregroundStyle(Colors.FONT_COLOR_WHITE)
                     .padding(.top, 10)
                     
                     // MARK: - DESCRIPTION
                     ScrollView(.vertical) {
                         VStack(alignment: .leading, spacing: 10) {
                             Text(Constants.STRING.DESCRIPTION)
-                                .font(.system(.headline, weight: .heavy))
+                                .font(.system(.headline, weight: .bold))
                             Text(Constants.STRING.LORM_TEXT)
+                                .fontWeight(.light)
                         }
-                        .foregroundStyle(Colors.FONT_COLOR_3)
+                        .foregroundStyle(Colors.FONT_COLOR_1)
                     }
                     .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, maxHeight: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/)
                     .padding()
-                    .background(.ultraThinMaterial)
+                    .background(.thinMaterial)
                     .clipShape(rect)
-                    .shadow(color: .black.opacity(0.3), radius: 10, x: 2, y: 2)
+                    .modifier(AppShadow())
                     
                     MainButton(title: Constants.STRING.ADD_TO_CART,
                                action: {

@@ -16,4 +16,5 @@ struct Colors {
     static let FONT_COLOR_1 = Color("fontColor1")
     static let FONT_COLOR_2 = Color("fontColor2")
     static let FONT_COLOR_3 = Color("fontColor3")
+    static let FONT_COLOR_WHITE = Color.white
 }
