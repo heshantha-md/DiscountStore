@@ -19,6 +19,7 @@ struct BackgroundSymbol: View {
             .scaledToFit()
             .offset(offset)
             .rotationEffect(rotationDegree)
+            .shadow(color: .black.opacity(0.3), radius: 10, x: 2, y: 2)
     }
 }
 

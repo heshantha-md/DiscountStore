@@ -15,16 +15,16 @@ struct BuyThreeGetDiscountsForEachLabel: View {
     var body: some View {
         VStack(spacing: -8) {
             HStack(spacing: 5) {
-                Text("Buy")
+                Text(Constants.STRING.BUY)
                     .font(.title3)
-                Text("3")
+                Text(Constants.STRING.THREE_NUMERIC)
                     .font(.largeTitle)
             }
             .fontDesign(.serif)
             VStack(alignment: .trailing, spacing: -5) {
                 Text(discount)
                     .font(.title3)
-                Text("each")
+                Text(Constants.STRING.EACH)
                     .fontWeight(.semibold)
                     .font(.system(size: 10))
             }

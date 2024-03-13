@@ -18,12 +18,8 @@ struct HomeView: View {
     var body: some View {
         GeometryReader { geo in
             ZStack(alignment: .topLeading) {
-                // MARK: - BACKGROUND SYMBOL
-                BackgroundSymbol(offset: CGSize(width: -(geo.size.width / 3), height: -(geo.size.height / 3)),
-                                 rotationDegree: .zero)
-                
-                BackgroundSymbol(offset: CGSize(width: -(geo.size.width / 3), height: -(geo.size.height / 2.6)),
-                                 rotationDegree: .degrees(180))
+                // MARK: - BACKGROUND SYMBOLS
+                BackgroundSymbolsView(geometry: geo)
                 
                 // MARK: - LIST OF ITEMS
                 VStack {

@@ -34,3 +34,25 @@ struct TextBorder: ViewModifier {
             .shadow(color: borderColor, radius: lineWidth)
     }
 }
+
+struct DiscountLabel: ViewModifier {
+    // MARK: - PROPERTIES
+    var product: ProductProtocol
+    
+    // MARK: - BODY
+    func body(content: Content) -> some View {
+        content
+            .overlay(alignment: .topTrailing) {
+                HStack {
+                    switch product.discountType {
+                    case .OneForOne:
+                        BuyOneGetOneLabel()
+                    case .LotBuy(let discount):
+                        BuyThreeGetDiscountsForEachLabel(discount: (product.grossPrice - discount).asPrice)
+                    default:
+                        EmptyView()
+                    }
+                }
+            }
+    }
+}
