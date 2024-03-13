@@ -9,14 +9,17 @@ import SwiftUI
 
 struct BackgroundSymbolsView: View {
     // MARK: - PROPERTIES
+    var image: Image
     @State var geometry: GeometryProxy
     
     // MARK: - BODY
     var body: some View {
-        BackgroundSymbol(offset: CGSize(width: -(geometry.size.width / 3), height: -(geometry.size.height / 3)),
+        BackgroundSymbol(image: image,
+                         offset: CGSize(width: -(geometry.size.width / 3), height: -(geometry.size.height / 3)),
                          rotationDegree: .zero)
         
-        BackgroundSymbol(offset: CGSize(width: -(geometry.size.width / 3), height: -(geometry.size.height / 2.6)),
+        BackgroundSymbol(image: image,
+                         offset: CGSize(width: -(geometry.size.width / 3), height: -(geometry.size.height / 2.6)),
                          rotationDegree: .degrees(180))
     }
 }
