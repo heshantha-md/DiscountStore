@@ -13,15 +13,15 @@ struct BuyOneGetOneLabel: View {
         VStack(spacing: -5) {
             HStack(spacing: 5) {
                 VStack(spacing: -5) {
-                    Text("Buy")
-                    Text("Get")
+                    Text(Constants.STRING.BUY)
+                    Text(Constants.STRING.GET)
                 }
                 .font(.callout)
-                Text("1")
+                Text(Constants.STRING.ONE_NUMERIC)
                     .font(.largeTitle)
             }
             .fontDesign(.serif)
-            Text("FREE")
+            Text(Constants.STRING.FREE.uppercased())
                 .font(.title3)
         }
         .modifier(TextBorder(textColor: .black,

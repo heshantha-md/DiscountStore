@@ -53,19 +53,7 @@ struct ProductGridItemView: View {
         }
         .frame(minWidth: 100, maxWidth: .infinity)
         .frame(height: 195)
-        .overlay(alignment: .topTrailing) {
-            // MARK: - DISCOUNT LABELS
-            HStack {
-                switch product.discountType {
-                case .OneForOne:
-                    BuyOneGetOneLabel()
-                case .LotBuy(let discount):
-                    BuyThreeGetDiscountsForEachLabel(discount: (product.grossPrice - discount).asPrice)
-                default:
-                    EmptyView()
-                }
-            }
-        }
+        .modifier(DiscountLabel(product: product)) // MARK: - DISCOUNT LABELS
         .foregroundColor(.white)
         .background(Colors.BG_COLOR_2.opacity(0.3))
         .clipShape(RoundedRectangle(cornerRadius: 20))

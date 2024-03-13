@@ -17,7 +17,6 @@ struct SR1: Identifiable, ProductProtocol {
     var netPrice: Float {
         return grossPrice - discount
     }
-    //https://www.allrecipes.com/thmb/2FyGckxU9X-AANDA98fME_Bf_HY=/750x0/filters:no_upscale():max_bytes(150000):strip_icc()/ALR-strawberry-fruit-or-vegetable-f6dd901427714e46af2d706a57b9016f.jpg
     var displayImage: DisplayImage = DisplayImage(thumbnail: "https://static.vecteezy.com/system/resources/previews/022/430/955/original/strawberry-cut-out-red-strawberry-on-transparent-background-png.png",
                                                   backgroundImage: "https://hips.hearstapps.com/clv.h-cdn.co/assets/15/22/1432664914-strawberry-facts1.jpg?resize=980:*")
     var discountType: DiscountType = .None
