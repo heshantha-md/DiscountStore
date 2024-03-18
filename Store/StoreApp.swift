@@ -20,6 +20,7 @@ struct StoreApp: App {
             NavigationStack {
                 HomeView()
             }
+            .toolbar(.hidden)
         }
         .environmentObject(productService)
         .environmentObject(favoriteService)

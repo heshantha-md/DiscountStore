@@ -12,27 +12,24 @@ struct HomeView: View {
     @EnvironmentObject var productsService: MocProductsService
     @State private var gridLayout = Array(repeating: GridItem(.flexible(minimum: 100, maximum: .infinity), spacing: 0), count: 2)
     @State var isDataFetched: Bool = false
-    @State var isCartPresented: Bool = true
+    @State var isCartViewPresented: Bool = false
     
     // MARK: - BODY
     var body: some View {
         GeometryReader { geo in
             ZStack(alignment: .topLeading) {
-                // MARK: - BACKGROUND SYMBOLS
-                BackgroundSymbolsView(image: Image("bg1"),
-                                      geometry: geo)
-                
                 // MARK: - LIST OF ITEMS
-                VStack {
+                ZStack {
                     ScrollView(.vertical, showsIndicators: false) {
                         LazyVGrid(columns: gridLayout, spacing: 0) {
                             ForEach(productsService.data.indices, id: \.self) { index in
-                                NavigationLink(destination: ProductDetailsView(product: productsService.data[index])) {
+                                NavigationLink(destination: ProductDetailsView(product: productsService.data[index], isCartViewPresented: $isCartViewPresented)) {
                                     // MARK: - PRODUCT CELL
                                     ProductGridItemView(product: productsService.data[index])
                                 }
                             }
                         }
+                        .padding(.top, 85)
                     }
                     .refreshable {
                         // MARK: - REFRESHING THE PRODUCTS LIST
@@ -48,25 +45,26 @@ struct HomeView: View {
                         isDataFetched = !isDataFetched
                     }
                 }
-                .sheet(isPresented: $isCartPresented) {
+                .sheet(isPresented: $isCartViewPresented) {
                     // MARK: - CART VIEW
-                    CartView(isPresented: $isCartPresented)
+                    CartView(isPresented: $isCartViewPresented)
                         .presentationBackground(.ultraThinMaterial)
                 }
-//                .toolbar {
-//                    ToolbarItem(placement: .topBarTrailing) {
-//                        Button {
-//                            isCartPresented = !isCartPresented
-//                        } label: {
-//                            Image(systemName: "cart.fill")
-//                        }
-//                    }
-//                }
+            }
+            .background {
+                // MARK: - BACKGROUND SYMBOLS
+                BackgroundSymbolsView(image: Image("bg1"),
+                                      geometry: geo)
+                        .offset(y: -150)
             }
             .background(.ultraThinMaterial) // MARK: - BACKGROUND
             .background(Colors.BACKGROUND_COLOR
                 .ignoresSafeArea())
-            .toolbar(.hidden)
+            .overlay(alignment: .topLeading) {
+                // MARK: - NAVIGATION BAR
+                PrimaryNavigationBar(isCartViewPresented: $isCartViewPresented)
+                    .padding(.horizontal, 15)
+            }
         }
     }
     
@@ -87,4 +85,5 @@ struct HomeView: View {
     }
     .environmentObject(MocProductsService())
     .environmentObject(MocCheckoutService(rules: MOC.CHECKOUT_RULES_SAMPLE_1) as! CheckoutService)
+    .toolbar(.hidden)
 }

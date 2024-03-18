@@ -27,23 +27,38 @@ struct CartView: View {
                 VStack(spacing: -5) {
                     // MARK: - NAVIGATION BAR
                     HStack {
-                        Text(Constants.STRING.CART.uppercased())
+                        HStack {
+                            Image(systemName: "cart")
+                            if checkoutService.cart.count > 0 {
+                                Text("\(checkoutService.cart.count) \(checkoutService.cart.count > 1 ? Constants.STRING.ITEMS : Constants.STRING.ITEM)")
+                                    .font(.callout)
+                                    .fontWeight(.bold)
+                                    .padding(.horizontal, 10)
+                                    .padding(.vertical, 5)
+                                    .background(Colors.FONT_COLOR_3)
+                                    .foregroundStyle(Colors.FONT_COLOR_4)
+                                    .clipShape(Capsule())
+                            }
+                        }
                         
                         Spacer()
                         
                         Button(action: { isPresented.toggle() }, label: {
-                            Image(systemName: "xmark")
+                            Image(systemName: "arrow.down")
                                 .resizable()
                                 .scaledToFit()
                                 .frame(width: 25, height: 25)
                                 .foregroundStyle(Colors.FONT_COLOR_3)
+                                .padding()
+                                .background(.ultraThinMaterial)
+                                .clipShape(Circle())
                         })
                     }
                     .frame(height: 50)
                     .font(.title)
                     .fontWeight(.semibold)
                     .padding(.horizontal, 15)
-                    .padding(.top, 10)
+                    .padding(.top, 30)
                     
                     Spacer()
                     
@@ -66,7 +81,6 @@ struct CartView: View {
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .font(.headline)
                     .background(.ultraThinMaterial)
-                    .modifier(AppShadow())
                     .padding(.vertical)
                     
                     Group {

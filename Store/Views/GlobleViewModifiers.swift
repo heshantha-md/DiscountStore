@@ -8,8 +8,10 @@
 import SwiftUI
 
 struct AppShadow: ViewModifier {
+    var color: Color
+    
     func body(content: Content) -> some View {
         content
-            .shadow(color: .black.opacity(0.3), radius: 8, x: 2, y: 2)
+            .shadow(color: color.opacity(0.4), radius: 5, x: 2, y: 2)
     }
 }
