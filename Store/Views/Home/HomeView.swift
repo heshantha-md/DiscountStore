@@ -10,9 +10,10 @@ import SwiftUI
 struct HomeView: View {
     // MARK: - PROPERTIES
     @EnvironmentObject var productsService: MocProductsService
-    @State private var gridLayout = Array(repeating: GridItem(.flexible(minimum: 100, maximum: .infinity), spacing: 0), count: 2)
     @State var isDataFetched: Bool = false
     @State var isCartViewPresented: Bool = false
+    @State private var gridLayout = Array(repeating: GridItem(.flexible(minimum: 100, maximum: .infinity), spacing: 0), count: 1)
+    @State private var isAnimating: Bool = false
     
     // MARK: - BODY
     var body: some View {
@@ -55,7 +56,7 @@ struct HomeView: View {
                 // MARK: - BACKGROUND SYMBOLS
                 BackgroundSymbolsView(image: Image("bg1"),
                                       geometry: geo)
-                        .offset(y: -150)
+                            .offset(y: -150)
             }
             .background(.ultraThinMaterial) // MARK: - BACKGROUND
             .background(Colors.BACKGROUND_COLOR
@@ -64,6 +65,14 @@ struct HomeView: View {
                 // MARK: - NAVIGATION BAR
                 PrimaryNavigationBar(isCartViewPresented: $isCartViewPresented)
                     .padding(.horizontal, 15)
+                    .offset(y: isAnimating ? 0 : -138)
+            }
+        }
+        .task {
+            await MainActor.run {
+                withAnimation(.bouncy(duration: 0.7)) {
+                    isAnimating = true
+                }
             }
         }
     }

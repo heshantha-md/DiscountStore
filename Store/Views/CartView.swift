@@ -14,7 +14,6 @@ struct CartView: View {
     @State private var totalNetPrice: Float = 0.00
     @State private var totalDiscountsPrice: Float = 0.00
     @Binding var isPresented: Bool
-    @State var arr = ["bal","bal","bal","bal","bal"]
     
     // MARK: - BODY
     var body: some View {
