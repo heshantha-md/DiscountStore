@@ -32,7 +32,7 @@ struct MainButton: View {
             }
             .frame(maxWidth: .infinity)
             .frame(height: 60)
-            .font(.system(size: 30, weight: .semibold, design: .rounded))
+            .font(.system(size: 25, weight: .semibold, design: .rounded))
             .foregroundStyle(.white)
             .background {
                 if title == Constants.STRING.ADD_TO_CART {
@@ -41,15 +41,10 @@ struct MainButton: View {
                         .scaledToFit()
                 }
             }
-            .overlay {
-                rect
-                    .stroke(.white.opacity(0.3), lineWidth: 1)
-                    .blendMode(.overlay)
-            }
             .background(Colors.BG_GREEN_COLOR)
             .clipShape(rect)
         }
-        .modifier(AppShadow())
+        .modifier(AppShadow(color: .black))
     }
 }
 

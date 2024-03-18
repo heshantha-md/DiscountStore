@@ -58,7 +58,7 @@ struct ProductGridItemView: View {
         .background(Colors.BG_COLOR_2.opacity(0.3))
         .clipShape(RoundedRectangle(cornerRadius: 20))
         .padding(13)
-        .shadow(color: .black.opacity(0.2), radius: 8, x: 5, y: 5)
+        .shadow(color: .black.opacity(0.15), radius: 8, x: 5, y: 5)
     }
 }
 

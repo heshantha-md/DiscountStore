@@ -20,7 +20,7 @@ struct BackgroundSymbol: View {
             .scaledToFit()
             .offset(offset)
             .rotationEffect(rotationDegree)
-            .modifier(AppShadow())
+            .modifier(AppShadow(color: .black))
     }
 }
 
