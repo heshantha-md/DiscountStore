@@ -20,6 +20,8 @@ struct CartItemCell: View {
                 .fontWeight(.ultraLight)
             Text("\(product.name)")
                 .fontWeight(.regular)
+            Text("- \(product.units)")
+                .fontWeight(.regular)
             
             Spacer()
             

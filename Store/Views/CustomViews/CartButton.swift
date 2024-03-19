@@ -11,6 +11,7 @@ struct CartButton: View {
     // MARK: - PROPERTIES
     @EnvironmentObject var checkoutService: CheckoutService
     var action: () -> Void
+    var shadowColor: Color
     
     // MARK: - BODY
     var body: some View {
@@ -31,7 +32,7 @@ struct CartButton: View {
         .padding()
         .background(.ultraThinMaterial)
         .clipShape(Circle())
-        .modifier(AppShadow(color: Colors.SHADOW_COLOR))
+        .modifier(AppShadow(color: shadowColor))
     }
 }
 
@@ -39,6 +40,6 @@ struct CartButton: View {
 #Preview {
     CartButton(action: {
         // DO SOMETHING HERE
-    })
+    }, shadowColor: .black)
     .environmentObject(MocCheckoutService(rules: MOC.CHECKOUT_RULES_SAMPLE_1) as! CheckoutService)
 }

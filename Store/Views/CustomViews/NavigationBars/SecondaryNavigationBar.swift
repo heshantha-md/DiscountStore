@@ -11,34 +11,40 @@ struct SecondaryNavigationBar: View {
     // MARK: - PROPERTIES
     var dismiss: () -> Void
     @Binding var isCartViewPresented: Bool
+    @Binding var isAnimating: Bool
     
     // MARK: - BODY
     var body: some View {
-        HStack {
-            Button(action: dismiss) {
-                Image(systemName: "arrow.left")
+        GeometryReader { geo in
+            HStack {
+                Button(action: dismiss) {
+                    Image(systemName: "arrow.left")
+                }
+                .font(.system(.title, weight: .semibold))
+                .padding([.bottom, .trailing, .top], 15)
+                .clipShape(Circle())
+                .modifier(AppShadow(color: .black.opacity(0.5)))
+                .offset(x: isAnimating ? 0 : -(geo.size.width))
+                
+                Spacer()
+                
+                CartButton(action: {
+                    isCartViewPresented = !isCartViewPresented
+                }, shadowColor: .black.opacity(0.5))
+                .offset(x: isAnimating ? 0 : geo.size.width)
             }
-            .font(.system(.title, weight: .semibold))
-            .padding()
-            .background(.ultraThinMaterial)
-            .clipShape(Circle())
-            .modifier(AppShadow(color: Colors.SHADOW_COLOR))
-            
-            Spacer()
-            
-            CartButton(action: {
-                isCartViewPresented = !isCartViewPresented
-            })
+            .font(.title)
+            .foregroundStyle(.white)
         }
         .frame(maxWidth: .infinity)
         .frame(height: 70)
-        .font(.title)
-        .foregroundStyle(Colors.FONT_COLOR_1)
     }
 }
 
 // MARK: - PREVIEW
 #Preview {
     SecondaryNavigationBar(dismiss: { /* DISMISS ACTION */ },
-                           isCartViewPresented: .constant(false))
+                           isCartViewPresented: .constant(false),
+                           isAnimating: .constant(true))
+        .environmentObject(MocCheckoutService(rules: MOC.CHECKOUT_RULES_SAMPLE_1) as! CheckoutService)
 }

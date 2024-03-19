@@ -17,6 +17,7 @@ struct SR1: Identifiable, ProductProtocol {
     var netPrice: Float {
         return grossPrice - discount
     }
+    var units: String = "250g"
     var displayImage: DisplayImage = DisplayImage(thumbnail: "https://static.vecteezy.com/system/resources/previews/022/430/955/original/strawberry-cut-out-red-strawberry-on-transparent-background-png.png",
                                                   backgroundImage: "https://hips.hearstapps.com/clv.h-cdn.co/assets/15/22/1432664914-strawberry-facts1.jpg?resize=980:*")
     var discountType: DiscountType = .None

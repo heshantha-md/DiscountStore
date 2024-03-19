@@ -41,7 +41,7 @@ struct PrimaryNavigationBar: View {
             
             Spacer()
             
-            CartButton(action: { isCartViewPresented.toggle() })
+            CartButton(action: { isCartViewPresented.toggle() }, shadowColor: Colors.SHADOW_COLOR)
         }
         .frame(maxWidth: .infinity)
         .frame(height: 80)
@@ -52,4 +52,5 @@ struct PrimaryNavigationBar: View {
 // MARK: - PREVIEW
 #Preview {
     PrimaryNavigationBar(isCartViewPresented: .constant(false))
+        .environmentObject(MocCheckoutService(rules: MOC.CHECKOUT_RULES_SAMPLE_1) as! CheckoutService)
 }

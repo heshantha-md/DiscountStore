@@ -17,6 +17,7 @@ struct FR1: Identifiable, ProductProtocol {
     var netPrice: Float {
         return grossPrice - discount
     }
+    var units: String = "1 unit"
     var displayImage: DisplayImage = DisplayImage(thumbnail: "https://pngimg.com/d/tea_PNG98912.png",
                                                   backgroundImage: "https://www.royalcupcoffee.com/sites/default/files/images/blog_post/shutterstock_417937765_0.jpg")
     var discountType: DiscountType = .None

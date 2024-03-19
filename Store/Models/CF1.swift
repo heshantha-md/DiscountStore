@@ -17,6 +17,7 @@ struct CF1: Identifiable, ProductProtocol {
     var netPrice: Float {
         return grossPrice - discount
     }
+    var units: String = "1 unit"
     var displayImage: DisplayImage = DisplayImage(thumbnail: "https://www.transparentpng.com/thumb/coffee/Vlg8de-coffee-mug.png",
                                                   backgroundImage: "https://neurosciencenews.com/files/2023/06/coffee-brain-caffeine-neuroscincces.jpg")
     //"https://static.vecteezy.com/system/resources/thumbnails/029/283/851/small/coffee-coffee-cup-coffee-cup-coffee-cup-clipart-restaurant-coffee-cup-transparent-background-ai-generative-free-png.png"
