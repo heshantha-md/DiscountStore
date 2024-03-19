@@ -70,7 +70,7 @@ struct HomeView: View {
         }
         .task {
             await MainActor.run {
-                withAnimation(.bouncy(duration: 0.7)) {
+                withAnimation(.snappy(duration: 0.7)) {
                     isAnimating = true
                 }
             }

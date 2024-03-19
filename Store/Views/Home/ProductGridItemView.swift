@@ -15,28 +15,15 @@ struct ProductGridItemView: View {
     var body: some View {
         VStack(spacing: 10) {
             // MARK: - DISPLAY THUMBNAIL
-            AsyncImage(url: URL(string: product.displayImage.thumbnail)) { phase in
-                switch phase {
-                case .empty:
-                    ProgressView()
-                case .success(let image):
-                    image
+            ThumbnailImage(url: product.displayImage.thumbnail)
+                .background {
+                    // MARK: - CELL BACKGROUND SPLASH IMAGE
+                    Image("bg2")
                         .resizable()
-                        .scaledToFit()
-                        .padding()
-                default:
-                    EmptyView()
+                        .scaledToFill()
+                        .scaleEffect(1.3)
                 }
-            }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background {
-                // MARK: - CELL BACKGROUND SPLASH IMAGE
-                Image("bg2")
-                    .resizable()
-                    .scaledToFill()
-                    .scaleEffect(1.3)
-            }
-            .offset(y: 20)
+                .offset(y: 20)
             
             // MARK: - NAME & PRICE
             HStack(spacing: 0) {

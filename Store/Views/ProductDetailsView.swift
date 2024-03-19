@@ -19,89 +19,101 @@ struct ProductDetailsView: View {
     // MARK: - BODY
     var body: some View {
         GeometryReader { geo in
-            let rect = RoundedRectangle(cornerRadius: 10)
-            
-            VStack(spacing: 15) {
-                VStack(spacing: 15) {
-                    // MARK: - NAVIGATION BAR
-                    SecondaryNavigationBar(dismiss: { dismiss() },
-                                           isCartViewPresented: $isCartViewPresented)
-                    
-                    // MARK: - DISPLAY IMAGE
-                    AsyncImage(url: URL(string: product.displayImage.backgroundImage)) { phase in
-                        switch phase {
-                        case .empty:
-                            Rectangle()
-                                .fill(.ultraThinMaterial)
-                                .overlay {
-                                    ProgressView()
-                                }
-                        case .success(let image):
-                            image
-                                .resizable()
-                                .scaledToFill()
-                                .onAppear() {
-                                    self.productImage = image
-                                }
-                                .clipShape(rect)
-                        default:
-                            EmptyView()
-                        }
-                    }
-                    .frame(minWidth: (geo.size.width - 35), minHeight: 250, maxHeight: 300)
-                    .clipShape(rect)
+            VStack(alignment: .leading, spacing: 15) {
+                // MARK: - NAVIGATION BAR
+                SecondaryNavigationBar(dismiss: { dismiss() },
+                                       isCartViewPresented: $isCartViewPresented, 
+                                       isAnimating: $isAnimating)
+                
+                // MARK: - DISPLAY THUMBNAIL
+                ThumbnailImage(url: product.displayImage.thumbnail)
+                    .shadow(color: .black, radius: 50, x: 5, y: 5)
                     .modifier(DiscountLabel(product: product)) // MARK: - DISCOUNT LABELS
+                    .opacity(isAnimating ? 1 : 0)
+                    .animation(.easeInOut(duration: 0.5), value: isAnimating)
+                
+                Group {
+                    // MARK: - NAME
+                    Text(product.name)
+                        .font(.system(.title, weight: .bold))
                     
-                    // MARK: - NAME & PRICE
-                    HStack {
-                        Text(product.name)
-                        Spacer()
+                    // MARK: - DESCRIPTION
+                    ScrollView(.vertical) {
+                        Text(Constants.STRING.LORM_TEXT)
+                            .font(.system(.headline, weight: .light))
+                    }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .padding(.bottom, 10)
+                }
+                .offset(x: isAnimating ? 0 : -(geo.size.width))
+                
+                HStack {
+                    VStack(alignment: .leading) {
+                        // MARK: - UNITS
+                        Text("Price per \(product.units)")
+                            .font(.system(.headline, weight: .semibold))
+                        
+                        // MARK: - PRICE
                         Text(product.grossPrice.asPrice)
+                            .font(.system(size: 45, weight: .ultraLight))
                             .fontDesign(.rounded)
                             .fontWeight(.semibold)
                     }
-                    .font(.system(size: 25, weight: .light))
-                    .foregroundStyle(Colors.FONT_COLOR_1)
-                }
-                .offset(y: isAnimating ? .zero : -(geo.size.height / 4))
-                
-                VStack(spacing: 15) {
-                    // MARK: - DESCRIPTION
-                    ScrollView(.vertical) {
-                        VStack(alignment: .leading, spacing: 10) {
-                            Text(Constants.STRING.DESCRIPTION)
-                                .font(.system(.headline, weight: .bold))
-                            Text(Constants.STRING.LORM_TEXT)
-                                .fontWeight(.light)
-                        }
-                        .foregroundStyle(Colors.FONT_COLOR_1)
-                    }
-                    .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, maxHeight: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/)
-                    .padding()
-                    .background(.thinMaterial)
-                    .clipShape(rect)
+                    .offset(x: isAnimating ? 0 : -(geo.size.width))
                     
-                    MainButton(title: Constants.STRING.ADD_TO_CART,
-                               action: {
-                        Task {
-                            await checkoutService.scan(product)
-                        }
+                    Spacer()
+                    
+                    // MARK: - ADD TO CART BUTTON
+                    Button(action: {}, label: {
+                        Image(systemName: "cart.fill.badge.plus")
+                            .font(.system(.largeTitle, weight: .semibold))
+                            .padding(20)
+                            .background(.accent)
+                            .foregroundStyle(.black)
+                            .clipShape(Circle())
+                            .modifier(AppShadow(color: .black))
                     })
+                    .padding(.trailing, 10)
+                    .offset(x: isAnimating ? 0 : geo.size.width)
                 }
-                .offset(y: isAnimating ? .zero : geo.size.height / 4)
             }
             .padding(.horizontal, 15)
-            .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, maxHeight: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/)
-            .background(.ultraThinMaterial) // MARK: - BACKGROUND
-            .background(Colors.BACKGROUND_COLOR
-                .ignoresSafeArea())
+            .background(alignment: .bottom) {
+                // MARK: - BLACK TEXT BACKGROUND SHADE
+                Rectangle()
+                    .fill(.black.opacity(0.8))
+                    .frame(width: geo.size.width + 200, height: geo.size.height)
+                    .blur(radius: 50)
+                    .offset(y: geo.size.height / 3)
+            }
+            .background {
+                // MARK: - BACKGROUND DISPLAY IMAGE
+                AsyncImage(url: URL(string: product.displayImage.backgroundImage)) { phase in
+                    switch phase {
+                    case .success(let image):
+                        image
+                            .resizable()
+                            .scaledToFit()
+                            .scaleEffect(geo.size.height / 220)
+                            .blur(radius: 3)
+                            .onAppear() {
+                                self.productImage = image
+                            }
+                    default:
+                        EmptyView()
+                    }
+                }
+                .ignoresSafeArea()
+                .opacity(isAnimating ? 1 : 0)
+                .animation(.easeInOut(duration: 0.5), value: isAnimating)
+            }
+            .background(.bgGreen) // MARK: - BACKGROUND COLOR
         }
+        .foregroundStyle(.white)
         .toolbar(.hidden)
         .task {
-            await MainActor.run {
-                withAnimation {
-                    isAnimating = true
-                }
+            withAnimation(.snappy(duration: 0.7)) {
+                isAnimating = true
             }
         }
     }
@@ -109,6 +121,7 @@ struct ProductDetailsView: View {
 
 // MARK: - PREVIEW
 #Preview {
-    ProductDetailsView(product: FR1(), isCartViewPresented: .constant(false))
+    ProductDetailsView(product: SR1(), isCartViewPresented: .constant(false))
+        .environmentObject(MocProductsService())
         .environmentObject(CheckoutService(rules: MOC.CHECKOUT_RULES_SAMPLE_1))
 }
