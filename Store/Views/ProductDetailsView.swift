@@ -64,7 +64,11 @@ struct ProductDetailsView: View {
                     Spacer()
                     
                     // MARK: - ADD TO CART BUTTON
-                    Button(action: {}, label: {
+                    Button(action: {
+                        Task {
+                            await checkoutService.scan(product)
+                        }
+                    }, label: {
                         Image(systemName: "cart.fill.badge.plus")
                             .font(.system(.largeTitle, weight: .semibold))
                             .padding(20)
