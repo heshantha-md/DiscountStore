@@ -12,7 +12,13 @@ struct HomeView: View {
     @EnvironmentObject var productsService: MocProductsService
     @State var isDataFetched: Bool = false
     @State var isCartViewPresented: Bool = false
-    @State private var gridLayout = Array(repeating: GridItem(.flexible(minimum: 100, maximum: .infinity), spacing: 0), count: 1)
+    @State private var gridColumnCount: Int = 2
+    private var gridLayout: [GridItem] {
+        return Array(repeating: GridItem(.flexible(minimum: 100, maximum: .infinity), spacing: 0), count: gridColumnCount)
+    }
+    var gridIcon: String {
+        return gridColumnCount > 1 ? "rectangle.grid.1x2" : "rectangle.grid.2x2"
+    }
     @State private var isAnimating: Bool = false
     
     // MARK: - BODY
@@ -66,6 +72,19 @@ struct HomeView: View {
                 PrimaryNavigationBar(isCartViewPresented: $isCartViewPresented)
                     .padding(.horizontal, 15)
                     .offset(y: isAnimating ? 0 : -138)
+            }
+            .overlay(alignment: .bottomLeading) {
+                // MARK: - GRID BUTTON
+                Image(systemName: gridIcon)
+                    .font(.title2)
+                    .padding(10)
+                    .padding(.leading, 10)
+                    .background(.ultraThinMaterial)
+                    .foregroundStyle(.fontColor1)
+                    .clipShape(UnevenRoundedRectangle(cornerRadii: .init(bottomTrailing: 15, topTrailing: 15)))
+                    .onTapGesture {
+                        gridColumnCount = gridColumnCount > 1 ? 1 : 2
+                    }
             }
         }
         .task {
