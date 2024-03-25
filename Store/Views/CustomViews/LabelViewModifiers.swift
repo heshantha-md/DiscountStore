@@ -34,3 +34,34 @@ struct TextBorder: ViewModifier {
             .shadow(color: borderColor, radius: lineWidth)
     }
 }
+
+struct DiscountLabel: ViewModifier {
+    // MARK: - PROPERTIES
+    var product: ProductProtocol
+    @State private var isAnimating = false
+    
+    // MARK: - BODY
+    func body(content: Content) -> some View {
+        content
+            .overlay(alignment: .topTrailing) {
+                HStack {
+                    switch product.discountType {
+                    case .OneForOne:
+                        BuyOneGetOneLabel()
+                    case .LotBuy(let discount):
+                        BuyThreeGetDiscountsForEachLabel(discount: (product.grossPrice - discount).asPrice)
+                    default:
+                        EmptyView()
+                    }
+                }
+                .task {
+                    await MainActor.run {
+                        withAnimation(.easeOut(duration: 0.5).repeatForever()) {
+                            isAnimating.toggle()
+                        }
+                    }
+                }
+                .scaleEffect(isAnimating ? 1.1 : 1)
+            }
+    }
+}

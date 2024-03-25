@@ -15,6 +15,7 @@ protocol ProductProtocol {
     var grossPrice: Float { get }
     var discount: Float { get set }
     var netPrice: Float { get }
+    var units: String { get }
     var displayImage: DisplayImage { get }
     var discountType: DiscountType { get set }
 }

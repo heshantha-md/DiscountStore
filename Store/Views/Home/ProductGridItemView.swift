@@ -15,28 +15,15 @@ struct ProductGridItemView: View {
     var body: some View {
         VStack(spacing: 10) {
             // MARK: - DISPLAY THUMBNAIL
-            AsyncImage(url: URL(string: product.displayImage.thumbnail)) { phase in
-                switch phase {
-                case .empty:
-                    ProgressView()
-                case .success(let image):
-                    image
+            ThumbnailImage(url: product.displayImage.thumbnail)
+                .background {
+                    // MARK: - CELL BACKGROUND SPLASH IMAGE
+                    Image("bg2")
                         .resizable()
-                        .scaledToFit()
-                        .padding()
-                default:
-                    EmptyView()
+                        .scaledToFill()
+                        .scaleEffect(1.3)
                 }
-            }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background {
-                // MARK: - CELL BACKGROUND SPLASH IMAGE
-                Image("bg2")
-                    .resizable()
-                    .scaledToFill()
-                    .scaleEffect(1.3)
-            }
-            .offset(y: 20)
+                .offset(y: 20)
             
             // MARK: - NAME & PRICE
             HStack(spacing: 0) {
@@ -53,24 +40,12 @@ struct ProductGridItemView: View {
         }
         .frame(minWidth: 100, maxWidth: .infinity)
         .frame(height: 195)
-        .overlay(alignment: .topTrailing) {
-            // MARK: - DISCOUNT LABELS
-            HStack {
-                switch product.discountType {
-                case .OneForOne:
-                    BuyOneGetOneLabel()
-                case .LotBuy(let discount):
-                    BuyThreeGetDiscountsForEachLabel(discount: (product.grossPrice - discount).asPrice)
-                default:
-                    EmptyView()
-                }
-            }
-        }
+        .modifier(DiscountLabel(product: product)) // MARK: - DISCOUNT LABELS
         .foregroundColor(.white)
         .background(Colors.BG_COLOR_2.opacity(0.3))
         .clipShape(RoundedRectangle(cornerRadius: 20))
         .padding(13)
-        .shadow(color: .black.opacity(0.2), radius: 8, x: 5, y: 5)
+        .shadow(color: .black.opacity(0.15), radius: 8, x: 5, y: 5)
     }
 }
 

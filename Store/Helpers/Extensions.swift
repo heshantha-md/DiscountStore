@@ -9,6 +9,6 @@ import Foundation
 
 extension Float {
     var asPrice: String {
-        return String(format: "\(Constants.Currency.GBP)%.2f", self)
+        return String(format: "\(Constants.CURRENCY.GBP)%.2f", self)
     }
 }
