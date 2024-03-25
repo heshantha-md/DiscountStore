@@ -8,5 +8,3 @@
 <Image src="https://github.com/heshantha-md/DiscountStore/assets/31559910/9aba31e1-44ef-4759-879d-1fbc05b63ba0" />
 </body>
 </html>
-
-![Portfolio-2]()
